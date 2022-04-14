@@ -48,13 +48,22 @@ const Register = () => {
           placeholder="Password"
           required
         />
-        <input type="submit" value="Register" />
+
+        <input className="me-2 py-2" type="checkbox" name="terms" id="terms" />
+        <label className="py-2" htmlFor="terms">
+          Accept Terms & Conditions
+        </label>
+        <input
+          className="btn btn-primary d-block mx-auto w-50 mb-2"
+          type="submit"
+          value="Register"
+        />
       </form>
       <p>
         Already have an account?{" "}
         <Link
           to="/login"
-          className="text-danger pe-auto text-decoration-none"
+          className="text-primary pe-auto text-decoration-none"
           onClick={navigateLogin}
         >
           Please Login
