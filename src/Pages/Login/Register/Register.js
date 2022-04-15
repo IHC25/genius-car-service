@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import "./Register.css";
@@ -6,6 +6,8 @@ import auth from "../../../firebase.init";
 import Social from "../Social/Social";
 
 const Register = () => {
+  const [agree, setAgree] = useState(false);
+
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const navigate = useNavigate();
@@ -23,8 +25,11 @@ const Register = () => {
     const name = event.target.name.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
+    // const agree = event.target.terms.checked;
 
-    createUserWithEmailAndPassword(email, password);
+    if (agree) {
+      createUserWithEmailAndPassword(email, password);
+    }
   };
 
   return (
@@ -49,11 +54,21 @@ const Register = () => {
           required
         />
 
-        <input className="me-2 py-2" type="checkbox" name="terms" id="terms" />
-        <label className="py-2" htmlFor="terms">
+        <input
+          onClick={() => setAgree(!agree)}
+          className="me-2 py-2"
+          type="checkbox"
+          name="terms"
+          id="terms"
+        />
+        <label
+          className={agree ? "text-primary py-2" : "text-danger py-2"}
+          htmlFor="terms"
+        >
           Accept Terms & Conditions
         </label>
         <input
+          disabled={!agree}
           className="btn btn-primary d-block mx-auto w-50 mb-2"
           type="submit"
           value="Register"
