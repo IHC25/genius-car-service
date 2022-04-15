@@ -4,17 +4,35 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import "./Register.css";
 import auth from "../../../firebase.init";
 import Social from "../Social/Social";
+import { Spinner } from "react-bootstrap";
 
 const Register = () => {
   const [agree, setAgree] = useState(false);
 
   const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
   const navigate = useNavigate();
 
   const navigateLogin = () => {
     navigate("/login");
   };
+
+  if (loading) {
+    return (
+      <div className="w-100 d-flex justify-content-center align-item-center">
+        <Spinner animation="border" variant="primary"></Spinner>
+      </div>
+    );
+  }
+
+  let errorMessage;
+  if (error) {
+    errorMessage = (
+      <div>
+        <p className="text-danger">Error: {error?.message}</p>
+      </div>
+    );
+  }
 
   if (user) {
     navigate("/home");
@@ -74,6 +92,7 @@ const Register = () => {
           value="Register"
         />
       </form>
+      {errorMessage}
       <p>
         Already have an account?{" "}
         <Link

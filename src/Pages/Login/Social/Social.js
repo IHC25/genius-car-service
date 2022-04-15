@@ -8,6 +8,7 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const Social = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
@@ -29,6 +30,14 @@ const Social = () => {
 
   if (user || user1) {
     navigate("/home");
+  }
+
+  if (loading || loading1) {
+    return (
+      <div className="w-100 d-flex justify-content-center align-item-center">
+        <Spinner animation="border" variant="primary"></Spinner>
+      </div>
+    );
   }
   return (
     <div>
